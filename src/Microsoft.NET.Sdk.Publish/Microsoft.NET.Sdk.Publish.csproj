@@ -1,0 +1,92 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net46;netstandard1.3</TargetFrameworks>
+    <AssemblyName>Microsoft.NET.Sdk.Publish.Tasks</AssemblyName>
+    <Title>Microsoft.NET.Sdk.Publish</Title>
+    <Authors>Microsoft Corporation</Authors>
+    <PackageLicenseUrl>https://www.microsoft.com/web/webpi/eula/net_library_eula_enu.htm</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/aspnet/websdk</PackageProjectUrl>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Description>This package contains MSBuild targets and tasks for publishing ASP.NET projects. This package is required for publishing ASP.NET Core projects.</Description>
+    <Copyright>&#169; Microsoft Corporation. All rights reserved.</Copyright>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>..\..\bin\Debug\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\Debug\</IntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>..\..\bin\Release\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\Release\</IntermediateOutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Build.Framework" Version="15.1.298-preview5" />
+    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="15.1.298-preview5" />
+    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.3'">
+    <Compile Remove="Tasks\MsDeploy\*.cs" />
+    <Compile Remove="MsDeploy\*.cs" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net46'">
+    <Reference Include="System" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(WebSdkTools)\WebDeploy\**\*.*">
+      <PackagePath>tools\net46\%(RecursiveDir)</PackagePath>
+    </Content>
+    <Content Include="$(OutputPath)\net46\Microsoft.NET.Sdk.Publish.Tasks.dll">
+      <PackagePath>tools\net46</PackagePath>
+    </Content>
+    <Content Include="$(OutputPath)\netstandard1.3\Microsoft.NET.Sdk.Publish.Tasks.dll">
+      <PackagePath>tools\netcoreapp1.0</PackagePath>
+    </Content>
+    <Content Include="$(OutputPath)\net46\Newtonsoft.Json.dll">
+      <PackagePath>tools\net46;tools\netcoreapp1.0</PackagePath>
+    </Content>
+    <Content Include="Targets\netstandard1.0\ComputeTargets\*.*">
+      <PackagePath>build\netstandard1.0\ComputeTargets</PackagePath>
+    </Content>
+    <Content Include="Targets\netstandard1.0\CopyTargets\*.*">
+      <PackagePath>build\netstandard1.0\CopyTargets</PackagePath>
+    </Content>
+    <Content Include="Targets\netstandard1.0\DotNetCLIToolTargets\*.*">
+      <PackagePath>build\netstandard1.0\DotNetCLIToolTargets</PackagePath>
+    </Content>
+    <Content Include="Targets\netstandard1.0\PublishProfiles\*.*">
+      <PackagePath>build\netstandard1.0\PublishProfiles</PackagePath>
+    </Content>
+    <Content Include="Targets\netstandard1.0\PublishTargets\*.*">
+      <PackagePath>build\netstandard1.0\PublishTargets</PackagePath>
+    </Content>
+    <Content Include="Targets\netstandard1.0\TransformTargets\*.*">
+      <PackagePath>build\netstandard1.0\TransformTargets</PackagePath>
+    </Content>
+    <Content Include="Targets\Sdk.props">
+      <PackagePath>Sdk</PackagePath>
+    </Content>
+    <Content Include="Targets\Sdk.targets">
+      <PackagePath>Sdk</PackagePath>
+    </Content>
+  </ItemGroup>
+</Project>
