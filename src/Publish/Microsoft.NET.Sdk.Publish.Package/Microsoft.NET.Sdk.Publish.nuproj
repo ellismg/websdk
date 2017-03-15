@@ -9,16 +9,15 @@
     <NuSpecFile>$(MSBuildProjectName).nuspec</NuSpecFile>
     <OutputPath>$(WebSdkRoot)\bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>$(WebSdkRoot)\obj\$(Configuration)\</IntermediateOutputPath>
-    <RuntimeIdenfier Condition="'$(RuntimeIdenfier)' == ''">win7-x86</RuntimeIdenfier>
     <CoreSdkVersion Condition="'$(CoreSdkVersion)' ==''">1.0.0</CoreSdkVersion>
     <WebSdkVersion Condition="'$(WebSdkVersion)' ==''">$(CoreSdkVersion)</WebSdkVersion>
     <NuSpecProperties>CoreSdkVersion=$(CoreSdkVersion);WebSdkVersion=$(WebSdkVersion)</NuSpecProperties>
   </PropertyGroup>
   <ItemGroup>
-    <NuGetContent Include="$(WebSdkRoot)\bin\$(Configuration)\net46\$(RuntimeIdenfier)\Microsoft.NET.Sdk.Publish.Tasks.dll" >
+    <NuGetContent Include="$(WebSdkRoot)\bin\$(Configuration)\net46\Microsoft.NET.Sdk.Publish.Tasks.dll" >
       <Destination>tools\net46</Destination>
     </NuGetContent>
-    <NuGetContent Include="$(WebSdkRoot)\bin\$(Configuration)\net46\$(RuntimeIdenfier)\Newtonsoft.Json.dll" >
+    <NuGetContent Include="$(WebSdkRoot)\bin\$(Configuration)\net46\Newtonsoft.Json.dll" >
       <Destination>tools\net46</Destination>
     </NuGetContent>
     <NuGetContent Include="$(WebSdkTools)\WebDeploy\**\*.*" >
@@ -28,7 +27,7 @@
     <NuGetContent Include="$(WebSdkRoot)\bin\$(Configuration)\netstandard1.3\Microsoft.NET.Sdk.Publish.Tasks.dll" >
       <Destination>tools\netcoreapp1.0</Destination>
     </NuGetContent>
-    <NuGetContent Include="$(WebSdkRoot)\bin\$(Configuration)\net46\$(RuntimeIdenfier)\Newtonsoft.Json.dll" >
+    <NuGetContent Include="$(WebSdkRoot)\bin\$(Configuration)\net46\Newtonsoft.Json.dll" >
       <Destination>tools\netcoreapp1.0</Destination>
     </NuGetContent>
     

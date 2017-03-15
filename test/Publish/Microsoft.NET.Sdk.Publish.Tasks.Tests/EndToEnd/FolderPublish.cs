@@ -350,8 +350,7 @@ namespace Microsoft.NET.Sdk.Publish.Tasks.Tests.EndToEnd
             string csProjContents = File.ReadAllText(csProjPath);
             string oldTargetFrameworkSnippet = $"<TargetFramework>{oldTargetFramework}</TargetFramework>";
             string newTargetFrameworkSnippet = $"<TargetFramework>{newTargetFramework}</TargetFramework>";
-            string runtimeIdentifierSnippet = $"<RuntimeIdentifier>win7-x86</RuntimeIdentifier>";
-            csProjContents = csProjContents.Replace(oldTargetFrameworkSnippet, $"{newTargetFrameworkSnippet}{Environment.NewLine}{runtimeIdentifierSnippet}");
+            csProjContents = csProjContents.Replace(oldTargetFrameworkSnippet, newTargetFrameworkSnippet);
             File.WriteAllText(csProjPath, csProjContents);
         }
     }

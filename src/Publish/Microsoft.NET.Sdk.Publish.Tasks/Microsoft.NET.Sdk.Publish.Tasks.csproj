@@ -11,9 +11,6 @@
     <OutputPath>..\..\..\bin\Release\</OutputPath>
     <IntermediateOutputPath>..\..\..\obj\Release\</IntermediateOutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net46'">
-    <RuntimeIdentifier>win7-x86</RuntimeIdentifier>
-  </PropertyGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.3'">
     <PackageReference Include="Microsoft.Build.Framework" Version="15.1.298-preview5" />
     <PackageReference Include="Microsoft.Build.Utilities.Core" Version="15.1.298-preview5" />
