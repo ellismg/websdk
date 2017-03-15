@@ -11,7 +11,7 @@ if not defined DNX_PACKAGES (
 )
 
 if not defined DOTNET_INSTALL_DIR (
-    set DOTNET_INSTALL_DIR=%LocalAppData%\Microsoft\dotnet
+    set DOTNET_INSTALL_DIR=%dp0\..\obj\tools\dotnet
 )
 
 if not defined DOTNET_VERSION (

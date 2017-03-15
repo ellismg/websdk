@@ -1,5 +1,5 @@
 @ECHO OFF
 
-PowerShell -NoProfile -NoLogo -ExecutionPolicy unrestricted -Command "[System.Threading.Thread]::CurrentThread.CurrentCulture = ''; [System.Threading.Thread]::CurrentThread.CurrentUICulture = '';& '%~dp0dotnet-install.ps1' %*; exit $LASTEXITCODE" 
+PowerShell -NoProfile -NoLogo -ExecutionPolicy unrestricted -Command "[System.Threading.Thread]::CurrentThread.CurrentCulture = ''; [System.Threading.Thread]::CurrentThread.CurrentUICulture = '';& '%~dp0dotnet-install.ps1' -InstallDir '%~dp0\obj\tools\dotnet' %*; exit $LASTEXITCODE"
 SET PATH=%localappdata%\Microsoft\dotnet;%PATH%
 tools\build.cmd
