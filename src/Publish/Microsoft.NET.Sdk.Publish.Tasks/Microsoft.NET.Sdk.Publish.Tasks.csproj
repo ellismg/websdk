@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net46;netstandard1.3</TargetFrameworks>
+    <TargetFrameworks Condition="'$(OS)' == 'Windows_NT'">net46;netstandard1.3</TargetFrameworks>
+    <TargetFrameworks Condition="'$(OS)' != 'Windows_NT'">netstandard1.3</TargetFrameworks>
     <AssemblyName>Microsoft.NET.Sdk.Publish.Tasks</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -11,12 +12,12 @@
     <OutputPath>..\..\..\bin\Release\</OutputPath>
     <IntermediateOutputPath>..\..\..\obj\Release\</IntermediateOutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net46'">
-    <RuntimeIdentifier>win7-x86</RuntimeIdentifier>
+  <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard1.3'">
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.3'">
-    <PackageReference Include="Microsoft.Build.Framework" Version="15.1.298-preview5" />
-    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="15.1.298-preview5" />
+    <PackageReference Include="Microsoft.Build.Framework" Version="15.1.298-preview5" ExcludeAssets="Runtime" />
+    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="15.1.298-preview5" ExcludeAssets="Runtime" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
     <Compile Remove="Tasks\MsDeploy\*.cs" />
     <Compile Remove="MsDeploy\*.cs" />
@@ -47,4 +48,15 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <!-- Unlike building for net46, by default, Newtonsoft.Json.dll is not binplaced when we build netstandard1.3.
+       Setting CopyLocalLockFileAssemblies above causes all the assemblies from our lock file to be binplaced,
+       and this task filters out the ones we don't care about -->
+  <Target Name="FilterCopyLocal" DependsOnTargets="RunResolvePublishAssemblies" BeforeTargets="ResolveLockFileCopyLocalProjectDeps" Condition="'$(TargetFramework)' == 'netstandard1.3'">
+    <ItemGroup>
+      <_CopyLocalButNotPublished Include="@(AllCopyLocalItems)" Exclude="@(ResolvedAssembliesToPublish)" />
+      <_SystemCopyLocalItems Include="@(AllCopyLocalItems)" Condition="$([System.String]::new('%(Filename)').StartsWith('System')) or ('%(Filename)' == 'Microsoft.CSharp')" />
+      <AllCopyLocalItems Remove="@(_CopyLocalButNotPublished)" />
+      <AllCopyLocalItems Remove="@(_SystemCopyLocalItems)" />
+    </ItemGroup>
+  </Target>
 </Project>
