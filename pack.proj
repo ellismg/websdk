@@ -1,0 +1,28 @@
+<Project InitialTargets="ValidateEnvironment">
+  <Import Project="dir.props" />
+
+  <ItemGroup>
+    <ProjectFiles Include="$(WebSdkSource)\Microsoft.NET.Sdk.Publish\Microsoft.NET.Sdk.Publish.csproj" />
+    <ProjectFiles Include="$(WebSdkSource)\Microsoft.NET.Sdk.Web\Microsoft.NET.Sdk.Web.csproj" />
+    <ProjectFiles Include="$(WebSdkSource)\Microsoft.NET.Sdk.Web.ProjectSystem\Microsoft.NET.Sdk.Web.ProjectSystem.csproj" />
+  </ItemGroup>
+
+  <Target Name="ValidateEnvironment">
+    <Error Text="Configuration must be 'Debug' or 'Release'" Condition="'$(Configuration)' != 'Debug' and '$(Configuration)' != 'Release'" />
+    <Error Text="CoreSdkVersion must be defined" Condition="'$(CoreSdkVersion)' == ''" />
+    <Error Text="WebSdkVersion must be defined" Condition="'$(WebSdkVersion)' == ''" />
+  </Target>
+
+  <Target Name="Build">
+    <MSBuild Projects="@(ProjectFiles)" Targets="Build" BuildInParallel="true" />
+  </Target>
+
+  <Target Name="Pack">
+    <MSBuild Projects="@(ProjectFiles)" Targets="Pack" BuildInParallel="true" />
+  </Target>
+
+  <Target Name="Clean">
+    <MSBuild Projects="@(ProjectFiles)" Targets="Clean" BuildInParallel="true" />
+  </Target>
+
+</Project>

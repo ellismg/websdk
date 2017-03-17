@@ -19,4 +19,8 @@
       <dependency id="Microsoft.NET.Sdk.Publish" version="$WebSdkVersion$" />
     </dependencies>
   </metadata>
+  <files>
+    <file src="Targets\Sdk.props" target="Sdk\Sdk.props" />
+    <file src="Targets\Sdk.targets" target="Sdk\Sdk.targets" />
+  </files>
 </package>

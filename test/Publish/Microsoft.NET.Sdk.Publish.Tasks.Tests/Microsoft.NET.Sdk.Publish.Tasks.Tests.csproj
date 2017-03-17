@@ -1,34 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), dir.props))\dir.props" Condition="'$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), dir.props))' != ''" />
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFrameworks>net46;netcoreapp1.0</TargetFrameworks>
     <AssemblyName>Microsoft.NET.Sdk.Publish.Tasks.Tests</AssemblyName>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <OutputPath>..\..\..\test\bin\Debug\</OutputPath>
-    <IntermediateOutputPath>..\..\..\test\obj\Debug\</IntermediateOutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <OutputPath>..\..\..\test\bin\Release\</OutputPath>
-    <IntermediateOutputPath>..\..\..\test\obj\Release\</IntermediateOutputPath>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)' == 'net46'">
     <PreserveCompilationContext>true</PreserveCompilationContext>
   </PropertyGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp1.0'">
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0-preview-20170210-02" />
     <PackageReference Include="Microsoft.Build.Framework" Version="15.1.298-preview5" />
     <PackageReference Include="Microsoft.Build.Utilities.Core" Version="15.1.298-preview5" />
     <PackageReference Include="xunit" Version="2.2.0-rc2-build3523" />
     <PackageReference Include="xunit.runner.VisualStudio" Version="2.2.0-rc2-build1249" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp1.0'">
     <Compile Remove="EndToEnd\*.cs" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net46'">
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0-preview-20170210-02" />
-    <PackageReference Include="Microsoft.Build.Framework" Version="15.1.298-preview5" />
-    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="15.1.298-preview5" />
-    <PackageReference Include="xunit" Version="2.2.0-rc2-build3523 " />
-    <PackageReference Include="xunit.runner.VisualStudio" Version="2.2.0-rc2-build1249" />
     <Reference Include="System" />
     <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Xml.Linq" />
@@ -41,6 +31,6 @@
     <Compile Condition="$(EndToEndTestsEnabled) != 'true'" Remove="EndToEnd\*.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\Publish\Microsoft.NET.Sdk.Publish.Tasks\Microsoft.NET.Sdk.Publish.Tasks.csproj" />
+    <ProjectReference Include="$(WebSdkSource)Microsoft.NET.Sdk.Publish\Microsoft.NET.Sdk.Publish.csproj" />
   </ItemGroup>
 </Project>

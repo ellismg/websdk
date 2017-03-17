@@ -28,7 +28,7 @@ namespace Microsoft.NET.Sdk.Publish.Tasks.Tests
     <aspNetCore processPath="".\test.exe"" stdoutLogEnabled=""false"" stdoutLogFile="".\logs\stdout"" />
   </system.webServer>
 </configuration>
-<!--ProjectGuid: 66964EC2-712A-451A-AB4F-33F18D8F54F1-->");
+<!--ProjectGuid: 042E5E54-E0E3-46C3-B832-B619C33D5A2A-->");
 
         [Fact]
         public void WebConfigTransform_Finds_ProjectGuid_IfSolutionPathIsPassed()
@@ -41,7 +41,7 @@ namespace Microsoft.NET.Sdk.Publish.Tasks.Tests
             string projectGuid = WebConfigTelemetry.GetProjectGuidFromSolutionFile(solutionFileFullPath, projectFullPath);
 
             // Assert
-            Assert.Equal<string>("{66964EC2-712A-451A-AB4F-33F18D8F54F1}", projectGuid);
+            Assert.Equal<string>("{042E5E54-E0E3-46C3-B832-B619C33D5A2A}", projectGuid);
         }
 
         [Theory]
@@ -57,11 +57,11 @@ namespace Microsoft.NET.Sdk.Publish.Tasks.Tests
             string projectGuid = WebConfigTelemetry.GetProjectGuidFromSolutionFile(solutionFilePath, projectFullPath);
 
             // Assert
-            Assert.Equal<string>("{66964EC2-712A-451A-AB4F-33F18D8F54F1}", projectGuid);
+            Assert.Equal<string>("{042E5E54-E0E3-46C3-B832-B619C33D5A2A}", projectGuid);
         }
 
         [Theory]
-        [InlineData("{66964EC2-712A-451A-AB4F-33F18D8F54F1}")]
+        [InlineData("{042E5E54-E0E3-46C3-B832-B619C33D5A2A}")]
         public void WebConfigTelemetry_SetsProjectGuidIfNotOptedOut(string projectGuid)
         {
             // Arrange
@@ -76,7 +76,7 @@ namespace Microsoft.NET.Sdk.Publish.Tasks.Tests
         }
 
         [Theory]
-        [InlineData("{66964EC2-712A-451A-AB4F-33F18D8F54F1}")]
+        [InlineData("{042E5E54-E0E3-46C3-B832-B619C33D5A2A}")]
         public void WebConfigTelemetry_DoesNotSetProjectGuidIfOptedOut_ThroughIgnoreProjectGuid(string projectGuid)
         {
             // Arrange
@@ -91,7 +91,7 @@ namespace Microsoft.NET.Sdk.Publish.Tasks.Tests
         }
 
         [Theory]
-        [InlineData("{66964EC2-712A-451A-AB4F-33F18D8F54F1}")]
+        [InlineData("{042E5E54-E0E3-46C3-B832-B619C33D5A2A}")]
         public void WebConfigTelemetry_RemovesProjectGuidIfOptedOut_ThroughIgnoreProjectGuid(string projectGuid)
         {
             // Arrange

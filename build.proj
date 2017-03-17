@@ -1,8 +1,9 @@
-  <!-- Build file -->
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <UsingTask AssemblyFile="$(WebSdkTools)\Microsoft.Web.MsBuildTasks2.dll" TaskName="Microsoft.Web.MsBuildTasks.SubmitCodeSignJob" />
   <UsingTask AssemblyFile="$(WebSdkTools)\Microsoft.Web.MsBuildTasks2.dll" TaskName="Microsoft.Web.MsBuildTasks.WaitForCodeSignJobs" />
   
+  <Import Project="dir.props" />
+
   <!-- 
     Variables that can be overriden by CI machine (official build):
     
@@ -10,8 +11,7 @@
       - CoreSdkPackagesDropDir - root drop dir that contains versioned build folders, e.g. \\cpvsbuild\Drops\Roslyn\Roslyn-Project-System\DotNet-Core-Sdk
       - WebSdkVersion -  web sdk full version
       - WebSdkPackagesDropDir [Required] - official drop folder path for web packages
-  -->
-  
+  --> 
   <PropertyGroup>
     <CoreSdkDropDir Condition="'$(CoreSdkDropDir)' == ''">\\cpvsbuild\Drops\Roslyn\Roslyn-Project-System\DotNet-Core-Sdk</CoreSdkDropDir>
     <VersionPrefix Condition="'$(VersionPrefix)' == ''">1.0.0</VersionPrefix>
@@ -19,14 +19,8 @@
     <PackagesOutputPath>$(WebSdkRoot)\bin\$(Configuration)\NuGet</PackagesOutputPath>
     <LocalDropRoot>$(WebSdkRoot)\bin\$(Configuration)</LocalDropRoot>
     <CodeSignOutputPath>$(WebSdkRoot)\bin\Signed</CodeSignOutputPath>
-    <NugetExe>$(WebSdkRoot)\tools\NuGet\NuGet.exe</NugetExe>
+    <DotNetCommand>$(WebSdkRoot)\obj\tools\dotnet\dotnet</DotNetCommand>
   </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectFiles Include="src\Publish\Microsoft.NET.Sdk.Publish.Package\Microsoft.NET.Sdk.Publish.Package.csproj" />
-    <ProjectFiles Include="src\Web\Microsoft.NET.Sdk.Web.ProjectSystem.Package\Microsoft.NET.Sdk.Web.ProjectSystem.Package.csproj" />
-    <ProjectFiles Include="src\Web\Microsoft.NET.Sdk.Web.Package\Microsoft.NET.Sdk.Web.Package.csproj" />
-  </ItemGroup>
 
   <UsingTask TaskName="GetCoreSdkBuildVersion" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll" >
     <ParameterGroup>
@@ -56,7 +50,7 @@
     </Task>
   </UsingTask>
 
-  <Target Name="Build" DependsOnTargets="Init;_Build"/>
+  <Target Name="Pack" DependsOnTargets="Init;_Pack"/>
   
   <Target Name="Init" DependsOnTargets="_InitCoreSdk;_InitWebSdk">
   </Target>
@@ -88,22 +82,12 @@
     </PropertyGroup>
   </Target>
   
-  <Target Name="_Build">
-    <PropertyGroup>
-      <!-- When C# projects have external dependencies that are shared,
-                 the Copy task can fail during parallel builds because multiple
-                 builds attempt to copy the same DLL at the same time.
-                 These properties tell the Copy task to retry after such a failure,
-                 so the build can ultimately succeed. -->
-      <CopyRetryProperties>Retries=20;RetryDelayMilliseconds=150</CopyRetryProperties>
-    </PropertyGroup>
-
-    <MSBuild Projects="@(ProjectFiles)" BuildInParallel="true" Targets="Build"
-             Properties="$(CopyRetryProperties);CoreSdkVersion=$(CoreSdkVersion);WebSdkVersion=$(WebSdkVersion)" />
+  <Target Name="_Pack">
+    <Exec Command="$(DotNetCommand) pack $(MSBuildThisFileDirectory)pack.proj /p:Configuration=$(Configuration) /p:CoreSdkVersion=$(CoreSdkVersion) /p:WebSdkVersion=$(WebSdkVersion)" />
   </Target>
 
   <Target Name="Clean">
-    <MSBuild Projects="@(ProjectFiles)" BuildInParallel="true" Targets="Clean" />
+    <Exec Command="$(DotNetCommand) clean $(MSBuildThisFileDirectory)pack.proj /p:Configuration=$(Configuration)" />
   </Target>
 
   <Target Name="_Publish">
@@ -166,5 +150,5 @@
 
   <Target Name="Sign" />
 
-  <Import Project="$(WebSdkTools)\MIcrosoft.NET.Sdk.Web.Sign.targets" Condition="Exists('$(WebSdkTools)\MIcrosoft.NET.Sdk.Web.Sign.targets')"/>
+  <Import Project="$(WebSdkTools)\Microsoft.NET.Sdk.Web.Sign.targets" Condition="Exists('$(WebSdkTools)\Microsoft.NET.Sdk.Web.Sign.targets')"/>
 </Project>

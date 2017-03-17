@@ -1,0 +1,31 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <WebSdkRoot Condition="'$(WebSdkRoot)' == ''">$(MSBuildThisFileDirectory)</WebSdkRoot>
+    <WebSdkBin Condition="'$(WebSdkBin)' == ''">$(WebSdkRoot)bin\</WebSdkBin>
+    <WebSdkIntermediate Condition="'$(WebSdkIntermediate)' == ''">$(WebSdkRoot)obj\</WebSdkIntermediate>
+    <WebSdkReferences Condition="'$(WebSdkReferences)' == ''">$(WebSdkRoot)references\</WebSdkReferences>
+    <WebSdkSource Condition="'$(WebSdkSource)' == ''">$(WebSdkRoot)src\</WebSdkSource>
+    <WebSdkTest Condition="'$(WebSdkTest)' == ''">$(WebSdkRoot)test\</WebSdkTest>
+    <WebSdkTools Condition="'$(WebSdkTools)' == ''">$(WebSdkRoot)tools\</WebSdkTools>
+    <CoreSdkVersion Condition="'$(CoreSdkVersion)' == ''">1.0.0</CoreSdkVersion>
+    <WebSdkVersion Condition="'$(WebSdkVersion)' == ''">$(CoreSdkVersion)</WebSdkVersion>
+  </PropertyGroup>
+  <Choose>
+    <When Condition="$(MSBuildProjectName.EndsWith('Tests'))">
+      <PropertyGroup>
+        <OutputPath>$(WebSdkTest)bin\$(Configuration)\</OutputPath>
+        <IntermediateOutputPath>$(WebSdkTest)obj\$(Configuration)\</IntermediateOutputPath>
+      </PropertyGroup>
+    </When>
+    <Otherwise>
+      <PropertyGroup>
+        <OutputPath>$(WebSdkBin)$(Configuration)\</OutputPath>
+        <IntermediateOutputPath>$(WebSdkIntermediate)$(Configuration)\</IntermediateOutputPath>
+      </PropertyGroup>
+    </Otherwise>
+  </Choose>
+  <PropertyGroup>
+    <PackageOutputPath>$(OutputPath)NuGet\</PackageOutputPath>
+    <IncludeSymbols>true</IncludeSymbols>
+  </PropertyGroup>
+</Project>

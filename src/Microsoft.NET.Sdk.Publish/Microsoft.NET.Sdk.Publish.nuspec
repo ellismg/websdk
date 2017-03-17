@@ -13,4 +13,14 @@
     <copyright>&#169; Microsoft Corporation. All rights reserved.</copyright>
     <tags></tags>
   </metadata>
+  <files>
+    <file src="$WebSdkTools$WebDeploy\**" target="tools\net46" />
+    <file src="$OutputPath$net46\Microsoft.NET.Sdk.Publish.Tasks.dll" target="tools\net46" />
+    <file src="$OutputPath$net46\Newtonsoft.Json.dll" target="tools\net46" />
+    <file src="$OutputPath$netstandard1.3\Microsoft.NET.Sdk.Publish.Tasks.dll" target="tools\netcoreapp1.0" />
+    <file src="$OutputPath$net46\Newtonsoft.Json.dll" target="tools\netcoreapp1.0" />
+    <file src="Targets\netstandard1.0\**" target="build\netstandard1.0" />
+    <file src="Targets\Sdk.props" target="Sdk\Sdk.props" />
+    <file src="Targets\Sdk.targets" target="Sdk\Sdk.targets" />
+  </files>
 </package>

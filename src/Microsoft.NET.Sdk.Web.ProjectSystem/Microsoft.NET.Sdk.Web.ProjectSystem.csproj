@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), dir.props))\dir.props" Condition="'$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), dir.props))' != ''" />
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp1.0</TargetFrameworks>
+    <NuspecFile>$(MSBuildProjectName).nuspec</NuspecFile>
+    <NuspecBasePath>$(MSBuildThisFileDirectory)</NuspecBasePath>
+    <NuspecProperties>WebSdkVersion=$(WebSdkVersion)</NuspecProperties>
+  </PropertyGroup>
+</Project>
