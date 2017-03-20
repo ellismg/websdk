@@ -10,4 +10,4 @@ curl -L https://raw.githubusercontent.com/dotnet/cli/rel/1.0.0/scripts/obtain/do
 
 export PATH=$DOTNET_TOOL_ROOT:$PATH
 
-$SCRIPT_ROOT/tools/Build.sh
+$SCRIPT_ROOT/tools/BuildCore.sh
